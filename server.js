@@ -1,9 +1,7 @@
 const app = require("./app");
 
-// Route test pour vérifier que le serveur fonctionne
-app.get('/', (req, res) => {
-    res.json({"message": "Hello Minecraft API !"});
-});
+// Routes
+require('./routes/item.js')(app);
 
 // Écoute du serveur
 app.listen(3000, () => {

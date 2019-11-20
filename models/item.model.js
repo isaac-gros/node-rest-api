@@ -7,7 +7,8 @@ const ItemSchema = mongoose.Schema({
     title: String, // titre de l'item
     recipe: {
         type: mongoose.Schema.ObjectId,
-        ref: 'Recipe'
+        ref: 'Recipe',
+        default: null
     }
 }, {
     timestamps: true
