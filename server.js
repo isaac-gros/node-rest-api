@@ -1,6 +1,11 @@
-const http = require("http");
 const app = require("./app");
-const port = process.env.PORT || 3000;
-const server = http.createServer(app);
 
-server.listen(port);
+// Route test pour vérifier que le serveur fonctionne
+app.get('/', (req, res) => {
+    res.json({"message": "Hello Minecraft API !"});
+});
+
+// Écoute du serveur
+app.listen(3000, () => {
+    console.log("Server is listening on port 3000");
+});
