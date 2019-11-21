@@ -6,6 +6,10 @@ const RecipeSchema = mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'Item'
     }],
+    outputItem: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Item'
+    },
     pattern: Array, // Le schéma à suivre pour crafter l'item
 }, {
     timestamps: true

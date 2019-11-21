@@ -2,6 +2,7 @@ const app = require("./app");
 
 // Routes
 require('./routes/item.js')(app);
+require('./routes/recipes.js')(app);
 
 // Écoute du serveur
 app.listen(3000, () => {
