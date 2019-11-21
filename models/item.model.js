@@ -8,7 +8,8 @@ const ItemSchema = mongoose.Schema({
     recipe: {
         type: mongoose.Schema.ObjectId,
         ref: 'Recipe',
-        default: null
+        required: false,
+        default: undefined
     }
 }, {
     timestamps: true

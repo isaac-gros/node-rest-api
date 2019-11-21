@@ -4,21 +4,21 @@ const Item = require('../models/item.model.js');
 exports.create = (req, res) => {
 
     // Validation de la requête
-    if(!req.body.type || !req.body.type_text || !req.body.title) {
+    if(!isFinite(req.body.type) || !req.body.type_text || !req.body.title) {
         return res.status(400).send({
             message: "L'item contient un ou plusieurs champs vides. Vérifier que les champs type, type_text, title soient renseignés. "
         });
     }
 
     // Création d'une nouvelle requête
-    const note = new Note({
+    const item = new Item({
         type: req.body.type, // le type de l'item (pour ranger les différents items)
         type_text: req.body.type_text, // le nom du type de l'item sous forme de slug
         title: req.body.title, // titre de l'item
     });
 
     // Sauvegarde l'item
-    note.save().then(data => {
+    item.save().then(data => {
         res.send(data);
     }).catch(err => {
         res.status(500).send({
@@ -30,7 +30,6 @@ exports.create = (req, res) => {
 // Retourne tous les items de la base de données.
 exports.findAll = (req, res) => {
 
-    //TODO
     Item.find().then(items => {
         res.send(items);
     }).catch(err => {
@@ -43,22 +42,21 @@ exports.findAll = (req, res) => {
 // Find a single note with a noteId
 exports.findOne = (req, res) => {
 
-    //TODO
-    Item.findById(req.params.itemId).then(Item => {
+    Item.findById(req.params.itemId).then(item => {
         if(!item) {
             return res.status(404).send({
-                message: "Item not found with id " + req.params.itemId
+                message: "L'item portant l'ID  " + req.params.itemId + " est introuvable."
             });            
         }
         res.send(item);
     }).catch(err => {
         if(err.kind === 'ObjectId') {
             return res.status(404).send({
-                message: "Item not found with id " + req.params.itemId
+                message: "L'item portant l'ID  " + req.params.itemId + " est introuvable."
             });                
         }
         return res.status(500).send({
-            message: "Error retrieving Item with id " + req.params.itemId
+            message: "Erreur serveur lors de la récupération de l'item portant l'ID  " + req.params.itemId
         });
     });
 };
