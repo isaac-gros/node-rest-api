@@ -39,7 +39,7 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single note with a noteId
+// Find a single item with a itemId
 exports.findOne = (req, res) => {
 
     Item.findById(req.params.itemId).then(item => {
@@ -61,12 +61,41 @@ exports.findOne = (req, res) => {
     });
 };
 
-// Update a note identified by the noteId in the request
+// Update a item identified by the itemId in the request
 exports.update = (req, res) => {
-    //TODO
+    // Validate Request
+    if(!req.body.content) {
+        return res.status(400).send({
+            message: "Item content can not be empty"
+        });
+    }
+
+    // Find item and update it with the request body
+    Item.findByIdAndUpdate(req.params.itemId, {
+        type: req.body.type || "Untitled Item", // le type de l'item (pour ranger les différents items)
+        type_text: req.body.type_text, // le nom du type de l'item sous forme de slug
+        title: req.body.title, // titre de l'item
+    }, {new: true})
+        .then(item => {
+            if(!item) {
+                return res.status(404).send({
+                    message: "Item not found with id " + req.params.itemId
+                });
+            }
+            res.send(item);
+        }).catch(err => {
+        if(err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "Item not found with id " + req.params.itemId
+            });
+        }
+        return res.status(500).send({
+            message: "Error updating item with id " + req.params.itemId
+        });
+    });
 };
 
-// Delete a note with the specified noteId in the request
+// Delete a item with the specified itemId in the request
 exports.delete = (req, res) => {
     //TODO
 };
